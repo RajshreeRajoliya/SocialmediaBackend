@@ -1,5 +1,6 @@
 
 import User from "../model/User.model.js";
+import bcrypt from 'bcryptjs';
 
 export const getAllUsers = async(req , res , next)=>{
 let users;
@@ -26,7 +27,14 @@ export const registerUsers = async(req , res , next)=>{
 if(existinguser){
 return res.status(400).json({message: "Already user existing"})
 } 
-const user = new User({name , email , password , dob , bio});
+
+const hashedPassword = bcrypt.hashSync(password);
+
+const user = new User({name ,
+     email ,
+      password : hashedPassword , 
+      dob , 
+      bio});
 try{
 await user.save();
 } catch(err) {
