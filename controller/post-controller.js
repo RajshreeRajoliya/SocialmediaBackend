@@ -32,3 +32,25 @@ export const postAllposts = async(req , res , next)=>{
     }
     
 }
+
+export const updatePost = async(req , res , next) => {
+    const{text , image , createdAt} = req.body;
+    const id = req.params.id;
+    
+   let posts;
+    try{
+      posts =  await Post.findByIdAndUpdate(id , {
+        text ,
+        image , 
+        createdAt
+      })
+    
+
+    } catch (err) {
+      return console.log(err)
+    }
+    if(!posts){
+        return res.status(404).json({message : "Unable to Update"})
+    }
+    return res.status(200).json({message : "Updated post successfully"})
+}
