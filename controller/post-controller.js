@@ -54,3 +54,18 @@ export const updatePost = async(req , res , next) => {
     }
     return res.status(200).json({message : "Updated post successfully"})
 }
+
+export const deletePost = async(req , res , next)=>{
+    const id = req.params.id;
+    let post;
+    try{
+    post = await Post.findByIdAndRemove(id);
+
+    } catch (err) {
+    console.log("error deleting post")
+    }
+    if(!post){
+    return res.status(500).json({message: "No post found"})
+    } 
+    return res.status(200).json({message : "Delete post successfully"});
+}
