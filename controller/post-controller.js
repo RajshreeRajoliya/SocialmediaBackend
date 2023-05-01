@@ -14,3 +14,21 @@ if(!posts){
 return res.status(200).json({posts});
 }
 
+export const postAllposts = async(req , res , next)=>{
+    const{text , image , createdAt} = req.body;
+
+    const post = new Post ({
+        text ,
+        image ,
+        createdAt
+    });
+    try {
+    await post.save(); 
+    } catch(err) {
+        console.log("Error: " + err)
+    }
+    if(post){
+        return res.status(200).json({message :"Posted Successfully"});
+    }
+    
+}
